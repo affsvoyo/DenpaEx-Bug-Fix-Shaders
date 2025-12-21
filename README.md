@@ -1,4 +1,4 @@
-![Supported Platforms](https://img.shields.io/badge/supported%20platforms-windows,%20linux,%20android(soon%20macos,%20ios)-blue)
+![Supported Platforms](https://img.shields.io/badge/supported%20platforms-windows,%20linux,%20android%20(soon%20macos,%20ios)-blue)
 [![Repository Size](https://img.shields.io/github/repo-size/acc0untz0138/DenpaEx)](https://github.com/acc0untz0138/DenpaEx)
 [![Issues](https://img.shields.io/github/issues/acc0untz0138/DenpaEx)](https://github.com/acc0untz0138/DenpaEx/issues)
 [![Pull Requests](https://img.shields.io/github/issues-pr/acc0untz0138/DenpaEx)](https://github.com/acc0untz0138/DenpaEx/pulls)
