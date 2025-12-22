@@ -17,6 +17,8 @@ class DebugDisplay extends TextField {
 	public var showFlixel:Bool = false;
 	public var showSystem:Bool = false;
 	public var forceUpdate:Bool = false;
+	
+	var metaInitialized:Bool = false;
 
 	// sys
 	private var platform:String = '???';
@@ -37,11 +39,14 @@ class DebugDisplay extends TextField {
 
 		width = 440;
 		height = 290;
-
-		resetMeta();
 	}
 
 	private function resetMeta() {
+		if (metaInitialized)
+			return;
+
+		metaInitialized = true;
+
 		platform = '${LimeSys.platformLabel} ${LimeSys.platformVersion}';
 
 		#if windows
@@ -87,6 +92,9 @@ class DebugDisplay extends TextField {
 	private override function __enterFrame(deltaTime:Float):Void {
 		if (!visible)
 			return; // why would we calculate this if its not visible.
+
+		if (showSystem && !metaInitialized)
+			resetMeta();
 
 		if (!forceUpdate) {
 			lastFT += deltaTime;
