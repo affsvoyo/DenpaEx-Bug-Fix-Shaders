@@ -43,14 +43,42 @@ class DebugDisplay extends TextField {
 
 	private function resetMeta() {
 		platform = '${LimeSys.platformLabel} ${LimeSys.platformVersion}';
+
 		#if windows
-		var process = new Process('wmic', ['cpu', 'get', 'name']);
-		if (process.exitCode() == 0) {
-			cpu = process.stdout.readAll().toString().trim().split('\n')[1].trim();
-			cpu += ' ${Capabilities.cpuArchitecture} ${Capabilities.supports64BitProcesses ? '64 Bit' : '32 Bit'}';
+		try {
+			var process = new Process(
+				'powershell',
+				[
+					'-NoProfile',
+					'-Command',
+					'Get-CimInstance Win32_Processor | Select-Object -ExpandProperty Name'
+				]
+			);
+
+			if (process.exitCode() == 0) {
+				cpu = process.stdout.readAll().toString().trim();
+				cpu += ' ${Capabilities.cpuArchitecture} ${Capabilities.supports64BitProcesses ? "64 Bit" : "32 Bit"}';
+			}
+		} catch (e:Dynamic) {
+			cpu = 'Unknown CPU';
 		}
 		#end
-		@:privateAccess gpu = Std.string(FlxG.stage.context3D.gl.getParameter(FlxG.stage.context3D.gl.RENDERER)).split("/")[0];
+
+		try {
+			@:privateAccess
+			if (FlxG.stage != null && FlxG.stage.context3D != null) {
+				gpu = Std.string(
+					FlxG.stage.context3D.gl.getParameter(
+						FlxG.stage.context3D.gl.RENDERER
+					)
+				).split("/")[0];
+			} else {
+				gpu = "Unknown GPU";
+			}
+		} catch (e:Dynamic) {
+			gpu = "Unknown GPU";
+		}
+
 		engVer = Main.denpaEngineVersion.debugVersion;
 	}
 
